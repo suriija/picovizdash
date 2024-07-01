@@ -165,7 +165,7 @@ def server(input, output, session):
             patientengruppe = row['patientengruppe']
             if patientengruppe:
                 bubbles = [ui.span(group, class_="bubble") for group in patientengruppe]
-                return ui.div(*bubbles)  # Zeigt die Diagnosen der ausgewählten DiGA an
+                return ui.div(*bubbles)  # Displays the diagnoses for the selected DiGA
         return ui.HTML("Keine Diagnosen verfügbar")
 
     def get_description(index):
@@ -177,7 +177,7 @@ def server(input, output, session):
                 key = keys[index]
                 description = score_df[score_df['abk'] == key]['short_des'].values[0] if not score_df[score_df['abk'] == key].empty else "Keine Beschreibung verfügbar"
                 long_description = score_df[score_df['abk'] == key]['short_long'].values[0] if not score_df[score_df['abk'] == key].empty else "Keine ausführliche Beschreibung verfügbar"
-                return description, long_description  # Holt die Beschreibung basierend auf dem Index
+                return description, long_description # Fetches the description based on the index
         return "Keine Beschreibung verfügbar", "Keine ausführliche Beschreibung verfügbar"
 
     @output
@@ -197,29 +197,29 @@ def server(input, output, session):
                     for i, key in enumerate(keys)
                 ]
                 tabs.append(ui.nav_panel('Zusammenfassung', output_widget('summary_plot')))
-                return ui.navset_card_tab(*tabs)  # Erstellt die Tabs basierend auf den Schlüsseln
+                return ui.navset_card_tab(*tabs)   # Creates tabs based on the keys
         return ui.HTML('<div>Keine Daten verfügbar</div>')
 
     @output
     @render.text
     def description_1():
-        return get_description(0)[0]  # Holt die erste Beschreibung
+        return get_description(0)[0]  # Fetches the description
 
     @output
     @render.text
     def description_2():
-        return get_description(1)[0]  
+        return get_description(1)[0]   
 
     @output
     @render.text
     def description_3():
-        return get_description(2)[0]
+        return get_description(2)[0]  
 
     @reactive.Effect
     @reactive.event(input.show_long_des_1)
     def show_long_des_1():
         long_des = get_description(0)[1]
-        ui.notification_show(long_des, type="info", duration=10)  # Zeigt eine Benachrichtigung mit der ausführlichen Beschreibung für den ersten Schlüssel
+        ui.notification_show(long_des, type="info", duration=10) # Shows a notification with the detailed description for the first key
 
     @reactive.Effect
     @reactive.event(input.show_long_des_2)
@@ -236,16 +236,16 @@ def server(input, output, session):
     def generate_plot(pattern):
         diga_id = selected_diga_id.get()
         if diga_id:
-            return plot_data(diga_id, pattern)  # Generiert ein Diagramm basierend
+            return plot_data(diga_id, pattern)  # Generates a plot based on the pattern
         fig, ax = plt.subplots()
         ax.text(0.5, 0.5, 'Keine Daten verfügbar', horizontalalignment='center', verticalalignment='center', transform=ax.transAxes)
         ax.axis('off')
-        return fig  # Gibt ein leeres Diagramm zurück, wenn keine Daten ausgewählt oder verfügbar sind
+        return fig  # Returns an empty plot if no data is selected or available
 
     @output
     @render.plot
     def diagram_outputt_1():
-        return generate_plot('pattern_1')  # Generiert das erste Diagramm
+        return generate_plot('pattern_1')  # Generates the plot
 
     @output
     @render.plot
@@ -261,14 +261,14 @@ def server(input, output, session):
     def summary_plot():
         diga_id = selected_diga_id.get()
         if diga_id:
-            return plot_summary(diga_id)  # Generiert die Forest-plot Zusammenfassung
+            return plot_summary(diga_id)  # Generates the summary forest plot
         fig, ax = plt.subplots()
         ax.text(0.5, 0.5, 'Keine Daten verfügbar', horizontalalignment='center', verticalalignment='center', transform=ax.transAxes)
         ax.axis('off')
-        return fig  # Gibt ein leeres Diagramm zurück, wenn keine Daten ausgewählt oder verfügbar sind
+        return fig # Returns an empty plot if no data is selected or available
 
-# Shiny-App starten
+# Start Shiny app
 app = App(app_ui, server)
 
 if __name__ == "__main__":
-    app.run()  # Startet die Shiny-App
+    app.run()  # Starts the Shiny app
