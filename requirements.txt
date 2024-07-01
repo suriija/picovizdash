@@ -1,3 +1,8 @@
-shiny
-seaborn
-pandas
+matplotlib==3.8.2
+matplotlib-inline==0.1.6
+numpy==1.25.2
+openpyxl==3.1.2
+pandas==2.1.2
+plotly==5.22.0
+shiny==0.7.0
+shinywidgets==0.3.2
