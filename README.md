@@ -58,7 +58,3 @@ Replace `app.py` with the actual entry point script of your application if it's 
 - `matplotlib==3.4.3`
 - `plotly==5.3.1`
 
-## Contributing
-
-Contributions are welcome! Please open an issue or submit a pull request with your changes.
-
